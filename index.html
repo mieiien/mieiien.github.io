@@ -1,7 +1,771 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Personal website for Minseok Song, a Statistics student at Seoul National University.">
+  <title>Minseok Song</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --canvas: #010102;
+      --surface-1: #0f1014;
+      --surface-2: #15171d;
+      --surface-3: #1b1d25;
+      --surface-4: #232632;
+      --hairline: #23252a;
+      --hairline-strong: #31343d;
+      --ink: #f7f8f8;
+      --ink-muted: #d0d6e0;
+      --ink-subtle: #8a8f98;
+      --ink-tertiary: #62666d;
+      --primary: #5e6ad2;
+      --primary-hover: #828fff;
+      --primary-focus: rgba(94, 105, 209, 0.52);
+      --max-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: "SF Pro Display", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      letter-spacing: 0;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: var(--ink);
+      text-decoration-color: rgba(94, 106, 210, 0.65);
+      text-underline-offset: 0.18em;
+      transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    a:hover {
+      color: var(--primary-hover);
+    }
+
+    a:focus-visible {
+      border-radius: 8px;
+      outline: 2px solid var(--primary-focus);
+      outline-offset: 4px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 16px;
+      top: 12px;
+      z-index: 20;
+      transform: translateY(-150%);
+      border-radius: 8px;
+      background: var(--primary);
+      color: var(--ink);
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .site-shell {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+    }
+
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      min-height: 56px;
+      gap: 24px;
+      padding: 10px 0;
+      background: rgba(1, 1, 2, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(35, 37, 42, 0.72);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      background: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 16px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      color: var(--ink-subtle);
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .nav-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 14px;
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      background: var(--surface-1);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    main {
+      padding-bottom: 80px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+      gap: clamp(32px, 6vw, 72px);
+      align-items: center;
+      padding: clamp(48px, 8vw, 84px) 0 clamp(56px, 8vw, 92px);
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .eyebrow {
+      margin: 0 0 16px;
+      color: var(--primary-hover);
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 10ch;
+      margin-bottom: 20px;
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+    }
+
+    .hero-lead {
+      max-width: 680px;
+      margin-bottom: 28px;
+      color: var(--ink-muted);
+      font-size: clamp(1.08rem, 2.2vw, 1.25rem);
+      line-height: 1.55;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 8px 14px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: var(--primary);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .button:hover {
+      background: var(--primary-hover);
+      color: var(--ink);
+    }
+
+    .button.secondary {
+      border-color: var(--hairline);
+      background: var(--surface-1);
+    }
+
+    .button.secondary:hover {
+      border-color: var(--hairline-strong);
+      background: var(--surface-2);
+    }
+
+    .profile-panel {
+      border: 1px solid var(--hairline);
+      border-radius: 16px;
+      background: var(--surface-1);
+      padding: 24px;
+    }
+
+    .profile-photo {
+      display: block;
+      width: 100%;
+      height: clamp(420px, 46vw, 620px);
+      aspect-ratio: 4 / 5;
+      border: 1px solid var(--hairline-strong);
+      border-radius: 12px;
+      object-fit: cover;
+      object-position: 72% center;
+      filter: brightness(0.78) saturate(0.88);
+    }
+
+    .profile-caption {
+      display: grid;
+      gap: 4px;
+      margin-top: 16px;
+      color: var(--ink-subtle);
+      font-size: 14px;
+    }
+
+    .profile-caption strong {
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .section {
+      display: grid;
+      grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+      gap: clamp(24px, 5vw, 56px);
+      padding: clamp(56px, 8vw, 96px) 0;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .section:last-of-type {
+      border-bottom: 0;
+    }
+
+    .section-label {
+      position: sticky;
+      top: 84px;
+      align-self: start;
+    }
+
+    h2 {
+      margin-bottom: 8px;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+    }
+
+    .section-kicker {
+      max-width: 220px;
+      margin-bottom: 0;
+      color: var(--ink-tertiary);
+      font-size: 14px;
+    }
+
+    .content {
+      color: var(--ink-muted);
+    }
+
+    .content > :last-child {
+      margin-bottom: 0;
+    }
+
+    .content p {
+      max-width: 760px;
+      margin-bottom: 18px;
+    }
+
+    .surface-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card,
+    .cv-panel {
+      border: 1px solid var(--hairline);
+      border-radius: 12px;
+      background: var(--surface-1);
+      padding: 24px;
+    }
+
+    .card:hover {
+      border-color: var(--hairline-strong);
+      background: var(--surface-2);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: var(--ink);
+      font-size: 1.18rem;
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1.25;
+    }
+
+    .card p {
+      margin-bottom: 14px;
+      color: var(--ink-muted);
+      font-size: 15px;
+    }
+
+    .meta {
+      color: var(--ink-tertiary);
+      font-size: 13px;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      position: relative;
+      min-height: 24px;
+      padding-left: 22px;
+      color: var(--ink-muted);
+    }
+
+    .list li::before {
+      position: absolute;
+      left: 0;
+      top: 0.68em;
+      width: 7px;
+      height: 7px;
+      border-radius: 3px;
+      background: var(--primary);
+      content: "";
+    }
+
+    .cv-panel {
+      display: grid;
+      gap: 24px;
+      background: var(--surface-2);
+    }
+
+    .cv-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .cv-header h3 {
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+
+    .cv-header p {
+      margin-bottom: 0;
+      color: var(--ink-subtle);
+    }
+
+    .cv-columns {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .cv-block {
+      border: 1px solid var(--hairline);
+      border-radius: 12px;
+      background: var(--surface-1);
+      padding: 18px;
+    }
+
+    .cv-block h4 {
+      margin: 0 0 10px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .cv-block ul {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .contact-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .contact-list a {
+      display: block;
+      min-height: 100%;
+      border: 1px solid var(--hairline);
+      border-radius: 12px;
+      background: var(--surface-1);
+      padding: 18px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .contact-list a:hover {
+      border-color: var(--hairline-strong);
+      background: var(--surface-2);
+    }
+
+    .contact-list span {
+      display: block;
+      color: var(--ink-tertiary);
+      font-size: 13px;
+    }
+
+    .contact-list strong {
+      display: block;
+      margin-top: 6px;
+      overflow-wrap: anywhere;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    footer {
+      border-top: 1px solid var(--hairline);
+      padding: 28px 0 48px;
+      color: var(--ink-tertiary);
+      font-size: 13px;
+    }
+
+    footer p {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 880px) {
+      .top-nav {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        align-items: start;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+
+      .nav-action {
+        justify-self: start;
+      }
+
+      .hero,
+      .section {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 44px;
+      }
+
+      .profile-panel {
+        max-width: 420px;
+      }
+
+      .section-label {
+        position: static;
+      }
+
+      .section-kicker {
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .site-shell {
+        width: min(100% - 24px, var(--max-width));
+      }
+
+      .top-nav {
+        position: static;
+      }
+
+      .nav-links,
+      .hero-actions,
+      .contact-list,
+      .surface-grid,
+      .cv-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .surface-grid,
+      .contact-list,
+      .cv-columns {
+        display: grid;
+      }
+
+      .button,
+      .nav-action {
+        width: 100%;
+      }
+
+      .hero-actions {
+        display: grid;
+      }
+
+      .profile-photo {
+        height: 240px;
+      }
+
+      .profile-panel,
+      .card,
+      .cv-panel {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
 <body>
-  <h1>Welcome to my Personal Page</h1>
-  <p>Hosted on GitHub Pages!</p>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="site-shell">
+    <nav class="top-nav" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Minseok Song home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Minseok Song</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#cv">CV</a></li>
+        <li><a href="#activities">Activities</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#ai-usage">AI Usage</a></li>
+      </ul>
+      <a class="nav-action" href="assets/cv.pdf">CV PDF</a>
+    </nav>
+
+    <main id="main">
+      <header class="hero" id="top">
+        <div>
+          <p class="eyebrow">Statistics · Seoul National University</p>
+          <h1>Minseok Song</h1>
+          <p class="hero-lead">
+            Welcome to my Webpage!! I am a Statistics student building a clean
+            personal portfolio for academic work, research experience, projects,
+            courses, and contact information.
+          </p>
+          <div class="hero-actions" aria-label="Primary links">
+            <a class="button" href="assets/cv.pdf">View CV</a>
+            <a class="button secondary" href="mailto:sms010@snu.ac.kr">Email</a>
+            <a class="button secondary" href="https://github.com/mieiien">GitHub</a>
+          </div>
+        </div>
+
+        <aside class="profile-panel" aria-label="Profile photo and summary">
+          <img class="profile-photo" src="assets/profile.jpg" alt="Profile photo of Minseok Song" width="4032" height="3024">
+          <div class="profile-caption">
+            <strong>Minseok Song</strong>
+            <span>B.S. in Statistics, 2020-Present</span>
+            <span>Seoul National University</span>
+          </div>
+        </aside>
+      </header>
+
+      <section class="section" id="about" aria-labelledby="about-title">
+        <div class="section-label">
+          <h2 id="about-title">About Me</h2>
+          <p class="section-kicker">Profile, hobbies, and interests</p>
+        </div>
+        <div class="content">
+          <p>
+            I am Minseok Song, a Statistics major at Seoul National University.
+            My academic interests include statistics, machine learning, deep
+            learning, and Python-based data analysis.
+          </p>
+          <p>
+            Outside of school, I enjoy playing soccer and basketball. I am also
+            interested in coffee.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="contact" aria-labelledby="contact-title">
+        <div class="section-label">
+          <h2 id="contact-title">Contact</h2>
+          <p class="section-kicker">Email and public profile</p>
+        </div>
+        <div class="content">
+          <ul class="contact-list">
+            <li>
+              <a href="mailto:sms010@snu.ac.kr">
+                <span>Email</span>
+                <strong>sms010@snu.ac.kr</strong>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/mieiien">
+                <span>GitHub</span>
+                <strong>github.com/mieiien</strong>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" id="cv" aria-labelledby="cv-title">
+        <div class="section-label">
+          <h2 id="cv-title">CV / Resume</h2>
+          <p class="section-kicker">Education, research, and skills</p>
+        </div>
+        <div class="content">
+          <div class="cv-panel">
+            <div class="cv-header">
+              <div>
+                <h3>Academic CV</h3>
+                <p>Download the PDF version for a concise resume.</p>
+              </div>
+              <a class="button" href="assets/cv.pdf">Open CV PDF</a>
+            </div>
+            <div class="cv-columns">
+              <article class="cv-block">
+                <h4>Education</h4>
+                <ul>
+                  <li>Seoul National University, B.S. in Statistics (2020-Present)</li>
+                  <li>Korea Science Academy of KAIST (2017-2019)</li>
+                </ul>
+              </article>
+              <article class="cv-block">
+                <h4>Research Experience</h4>
+                <ul>
+                  <li>Undergraduate Intern, SNUUQ Lab</li>
+                </ul>
+              </article>
+              <article class="cv-block">
+                <h4>Technical Skills</h4>
+                <ul>
+                  <li>Statistics</li>
+                  <li>Machine Learning</li>
+                  <li>Deep Learning</li>
+                  <li>Python</li>
+                </ul>
+              </article>
+              <article class="cv-block">
+                <h4>Major</h4>
+                <ul>
+                  <li>Statistics</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="activities" aria-labelledby="activities-title">
+        <div class="section-label">
+          <h2 id="activities-title">Activities / Projects</h2>
+          <p class="section-kicker">Research and portfolio work</p>
+        </div>
+        <div class="content surface-grid">
+          <article class="card">
+            <h3>SNUUQ Lab Internship</h3>
+            <p>
+              Undergraduate research internship connected to data-driven
+              methodology, statistics, and artificial intelligence.
+            </p>
+            <p class="meta">Research Experience</p>
+          </article>
+          <article class="card">
+            <h3>Personal GitHub Portfolio</h3>
+            <p>
+              A collection of programming and academic work, with room for
+              statistics, machine learning, deep learning, and Python projects.
+            </p>
+            <a href="https://github.com/mieiien">github.com/mieiien</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="courses" aria-labelledby="courses-title">
+        <div class="section-label">
+          <h2 id="courses-title">Courses I Plan to Take</h2>
+          <p class="section-kicker">Planned coursework</p>
+        </div>
+        <div class="content">
+          <ul class="list">
+            <li>Bayes Statistics</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" id="ai-usage" aria-labelledby="ai-usage-title">
+        <div class="section-label">
+          <h2 id="ai-usage-title">AI Usage</h2>
+          <p class="section-kicker">Tooling used for this site</p>
+        </div>
+        <div class="content surface-grid">
+          <article class="card">
+            <h3>Codex</h3>
+            <p>
+              Codex was used to help create and improve this website, including
+              the structure, styling, accessibility, and responsive layout.
+            </p>
+            <p class="meta">Tool</p>
+          </article>
+          <article class="card">
+            <h3>Prompt</h3>
+            <p>Create a webpage referring to INSTRUCTION.md</p>
+            <p class="meta">AI Usage</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Minseok Song. Static GitHub Pages portfolio.</p>
+    </footer>
+  </div>
 </body>
 </html>
